@@ -16,7 +16,7 @@
 
   concatFun = require('concat-file-fun');
 
-  exports.processAll = function(inputFile, outputDir, options, doneCallback) {
+  module.exports = function(inputFile, outputDir, options, doneCallback) {
     var _base, _base1;
     if (options == null) {
       options = {};
