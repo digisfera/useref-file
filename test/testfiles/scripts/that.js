@@ -1,1 +1,1 @@
-function thatFun() { }
+(function thatFun() { console.log("that"); })()

@@ -1,1 +1,1 @@
-function thisFun() { }
+(function thisFun() { console.log("this") })()

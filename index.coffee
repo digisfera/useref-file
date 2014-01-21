@@ -6,6 +6,7 @@ async = require('async')
 mkdirp = require('mkdirp')
 _ = require('lodash')
 concatFun = require('concat-file-fun')
+uglifyFun = require('uglify-file-fun')
 
 module.exports = (inputFile, outputDir, options = {}, doneCallback) ->
 
@@ -17,6 +18,8 @@ module.exports = (inputFile, outputDir, options = {}, doneCallback) ->
     if _.isFunction(options.handlers.js) then options.handlers.js
     else if options.handlers.js == 'concat'
       (srcFiles, dstFile, cb) -> concatFun.filesToFile(srcFiles, dstFile, ';', cb)
+    else if options.handlers.js == 'uglify'
+      (srcFiles, dstFile, cb) -> uglifyFun.filesToFile(srcFiles, dstFile, cb)
     else null
 
   options.handlers.css =
