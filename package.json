@@ -2,9 +2,10 @@
   "name": "useref-file-fun",
   "version": "0.0.0",
   "description": "Wrapper for useref to work with files",
-  "main": "index.coffee",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "coffee -c index.coffee"
   },
   "author": "Manuel Cabral (m.cabral@digisfera.pt)",
   "license": "ISC",
