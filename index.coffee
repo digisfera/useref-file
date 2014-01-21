@@ -1,10 +1,10 @@
+fs = require('fs')
+path = require('path')
+
 useref = require('useref')
 async = require('async')
-path = require('path')
 mkdirp = require('mkdirp')
-fs = require('fs')
 _ = require('lodash')
-fileFun = require('file-fun')
 concatFun = require('concat-file-fun')
 
 exports.processAll = (inputFile, outputDir, options = {}, doneCallback) ->
