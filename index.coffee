@@ -7,7 +7,7 @@ mkdirp = require('mkdirp')
 _ = require('lodash')
 concatFun = require('concat-file-fun')
 
-exports.processAll = (inputFile, outputDir, options = {}, doneCallback) ->
+module.exports = (inputFile, outputDir, options = {}, doneCallback) ->
 
   options.handlers ?= {}
   options.handlers.js ?= 'concat'
