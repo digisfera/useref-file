@@ -1,6 +1,6 @@
 {
   "name": "useref-file-fun",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Wrapper for useref to work with files",
   "main": "index.js",
   "scripts": {
