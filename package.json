@@ -14,13 +14,14 @@
     "lodash": "~2.4.1",
     "mkdirp": "~0.3.5",
     "concat-file-fun": "*",
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "uglify-file-fun": "*"
   },
   "devDependencies": {
     "chai": "~1.8.1",
     "mocha": "~1.17.0"
   },
-  "repository":   {
+  "repository": {
     "type": "git",
     "url": "git://github.com/digisfera/useref-file-fun.git"
   }
