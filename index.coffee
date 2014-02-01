@@ -17,15 +17,15 @@ module.exports = (inputFile, outputDir, options = {}, doneCallback) ->
   options.handlers.js =
     if _.isFunction(options.handlers.js) then options.handlers.js
     else if options.handlers.js == 'concat'
-      (srcFiles, dstFile, cb) -> concatFun.filesToFile(srcFiles, dstFile, ';', cb)
+      (srcFiles, dstFile, cb) -> concatFun(srcFiles, dstFile, { separator: ';' }, cb)
     else if options.handlers.js == 'uglify'
-      (srcFiles, dstFile, cb) -> uglifyFun.filesToFile(srcFiles, dstFile, cb)
+      (srcFiles, dstFile, cb) -> uglifyFun(srcFiles, dstFile, {}, cb)
     else null
 
   options.handlers.css =
     if _.isFunction(options.handlers.css) then options.handlers.css
     else if options.handlers.css == 'concat'
-      (srcFiles, dstFile, cb) -> concatFun.filesToFile(srcFiles, dstFile, '', cb)
+      (srcFiles, dstFile, cb) -> concatFun(srcFiles, dstFile, { separator: '' }, cb)
     else null
 
   fs.readFile inputFile, {encoding: 'utf-8'}, (err, inputData) ->

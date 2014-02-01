@@ -33,12 +33,16 @@
       _base1.css = 'concat';
     }
     options.handlers.js = _.isFunction(options.handlers.js) ? options.handlers.js : options.handlers.js === 'concat' ? function(srcFiles, dstFile, cb) {
-      return concatFun.filesToFile(srcFiles, dstFile, ';', cb);
+      return concatFun(srcFiles, dstFile, {
+        separator: ';'
+      }, cb);
     } : options.handlers.js === 'uglify' ? function(srcFiles, dstFile, cb) {
-      return uglifyFun.filesToFile(srcFiles, dstFile, cb);
+      return uglifyFun(srcFiles, dstFile, {}, cb);
     } : null;
     options.handlers.css = _.isFunction(options.handlers.css) ? options.handlers.css : options.handlers.css === 'concat' ? function(srcFiles, dstFile, cb) {
-      return concatFun.filesToFile(srcFiles, dstFile, '', cb);
+      return concatFun(srcFiles, dstFile, {
+        separator: ''
+      }, cb);
     } : null;
     return fs.readFile(inputFile, {
       encoding: 'utf-8'
