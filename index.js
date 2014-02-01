@@ -75,14 +75,28 @@
             });
             dstFile = path.join(outputDir, dst);
             return allFuns.push(function(handlerCallback) {
-              return options.handlers[type](srcFiles, dstFile, handlerCallback);
+              return options.handlers[type](srcFiles, dstFile, function(err, result) {
+                if (err) {
+                  return handlerCallback(err);
+                } else {
+                  return handlerCallback(null, {
+                    type: type,
+                    result: result
+                  });
+                }
+              });
             });
           });
         });
         return async.parallel(allFuns, cb);
       };
       return async.parallel([writeFun, processFun], function(err, result) {
-        return doneCallback(err, result != null ? result[1] : void 0);
+        var blockResults, resultsPerType;
+        resultsPerType = _.groupBy(result != null ? result[1] : void 0, 'type');
+        blockResults = _.mapValues(resultsPerType, function(typeResults) {
+          return _.map(typeResults, 'result');
+        });
+        return doneCallback(err, blockResults);
       });
     });
   };

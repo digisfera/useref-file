@@ -49,9 +49,16 @@ module.exports = (inputFile, outputDir, options, doneCallback) ->
         _.each block, (src, dst) ->
           srcFiles = _.map(src, (p) -> path.join(path.dirname(inputFile), p))
           dstFile = path.join(outputDir, dst)
-          allFuns.push((handlerCallback) -> options.handlers[type](srcFiles, dstFile, handlerCallback))
+          allFuns.push (handlerCallback) ->
+            options.handlers[type] srcFiles, dstFile, (err, result) ->
+              if err then handlerCallback(err)
+              else handlerCallback(null, { type, result} )
 
       async.parallel(allFuns, cb)
 
 
-    async.parallel [writeFun, processFun], (err, result) -> doneCallback(err, result?[1])
+    async.parallel [writeFun, processFun], (err, result) ->
+      
+      resultsPerType = _.groupBy(result?[1], 'type')
+      blockResults = _.mapValues(resultsPerType, (typeResults) -> _.map(typeResults, 'result'))
+      doneCallback(err, blockResults)

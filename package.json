@@ -1,7 +1,7 @@
 {
-  "name": "useref-file-fun",
+  "name": "useref-file",
   "version": "0.0.3",
-  "description": "Wrapper for useref to work with files",
+  "description": "Useref on a file",
   "main": "index.js",
   "scripts": {
     "test": "mocha test",
@@ -24,6 +24,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/digisfera/useref-file-fun.git"
+    "url": "git://github.com/digisfera/useref-file.git"
   }
 }
