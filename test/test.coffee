@@ -12,14 +12,17 @@ describe 'useref-file-fun', ->
 
   it 'should write output and processed files', (done) ->
 
-    userefFun "#{__dirname}/testfiles/index.html", "#{__dirname}/tmp", {}, (err, result) ->
+    userefFun "#{__dirname}/testfiles/index.html", "#{__dirname}/tmp", (err, result) ->
 
-      expectedResult = _.map(filesToGenerate, (f) -> path.join(__dirname, 'tmp', f))
 
       expect(err).to.be.not.ok
-      expect(result).to.eql(expectedResult)
+      expect(result).to.have.length(filesToGenerate.length)
 
-      _.each filesToGenerate, (f) ->
+      _.each filesToGenerate, (f, i) ->
+        expectedOutFile = path.join(__dirname, 'tmp', f)
+        expect(result[i]).to.have.property('outputFile').that.equals(expectedOutFile)
+        expect(result[i]).to.have.property('outputData').with.length.greaterThan(0)
+
         generatedContents = fs.readFileSync(path.join(__dirname, 'tmp', f), {encoding: 'utf-8'})
         expectedContents = fs.readFileSync(path.join(__dirname, 'expected', f), {encoding: 'utf-8'})
         expect(generatedContents).to.eql(expectedContents)
@@ -29,17 +32,19 @@ describe 'useref-file-fun', ->
   it 'should uglify js', (done) ->
     userefFun "#{__dirname}/testfiles/index.html", "#{__dirname}/tmp", { handlers: { js: 'uglify' }}, (err, result) ->
 
-      expectedResult = _.map(filesToGenerate, (f) -> path.join(__dirname, 'tmp', f))
 
       expect(err).to.be.not.ok
-      expect(result).to.eql(expectedResult)
 
-      _.each filesToGenerate, (f) ->
+      _.each filesToGenerate, (f, i) ->
         generatedContents = fs.readFileSync(path.join(__dirname, 'tmp', f), {encoding: 'utf-8'})
         expect(generatedContents.length).to.be.greaterThan(0)
 
+        expectedOutFile = path.join(__dirname, 'tmp', f)
+        expect(result[i]).to.have.property('outputFile').that.equals(expectedOutFile)
+        expect(result[i]).to.have.property('outputData').with.length.greaterThan(0)
+
+
       done()
 
-  it 'should work if options argument is not provided'
 
 

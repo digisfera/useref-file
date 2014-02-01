@@ -2,13 +2,13 @@
 (function() {
   var async, concatFun, fs, mkdirp, path, uglifyFun, useref, _;
 
-  fs = require('fs');
-
   path = require('path');
 
   useref = require('useref');
 
   async = require('async');
+
+  fs = require('fs');
 
   mkdirp = require('mkdirp');
 
@@ -16,10 +16,14 @@
 
   concatFun = require('concat-file');
 
-  uglifyFun = require('uglify-file-fun');
+  uglifyFun = require('uglify-files');
 
   module.exports = function(inputFile, outputDir, options, doneCallback) {
     var _base, _base1;
+    if (!doneCallback && _.isFunction(options)) {
+      doneCallback = options;
+      options = null;
+    }
     if (options == null) {
       options = {};
     }
@@ -35,26 +39,14 @@
     options.handlers.js = _.isFunction(options.handlers.js) ? options.handlers.js : options.handlers.js === 'concat' ? function(srcFiles, dstFile, cb) {
       return concatFun(srcFiles, dstFile, {
         separator: ';'
-      }, function(err, success) {
-        if (err) {
-          return cb(err);
-        } else {
-          return cb(null, dstFile);
-        }
-      });
+      }, cb);
     } : options.handlers.js === 'uglify' ? function(srcFiles, dstFile, cb) {
       return uglifyFun(srcFiles, dstFile, {}, cb);
     } : null;
     options.handlers.css = _.isFunction(options.handlers.css) ? options.handlers.css : options.handlers.css === 'concat' ? function(srcFiles, dstFile, cb) {
       return concatFun(srcFiles, dstFile, {
         separator: ''
-      }, function(err, success) {
-        if (err) {
-          return cb(err);
-        } else {
-          return cb(null, dstFile);
-        }
-      });
+      }, cb);
     } : null;
     return fs.readFile(inputFile, {
       encoding: 'utf-8'

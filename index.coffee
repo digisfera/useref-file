@@ -1,15 +1,19 @@
-fs = require('fs')
 path = require('path')
 
 useref = require('useref')
 async = require('async')
+fs = require('fs')
 mkdirp = require('mkdirp')
 _ = require('lodash')
 concatFun = require('concat-file')
-uglifyFun = require('uglify-file-fun')
+uglifyFun = require('uglify-files')
 
-module.exports = (inputFile, outputDir, options = {}, doneCallback) ->
+module.exports = (inputFile, outputDir, options, doneCallback) ->
+  if !doneCallback and _.isFunction(options)
+    doneCallback = options
+    options = null
 
+  options ?= {}
   options.handlers ?= {}
   options.handlers.js ?= 'concat'
   options.handlers.css ?= 'concat'
@@ -17,8 +21,7 @@ module.exports = (inputFile, outputDir, options = {}, doneCallback) ->
   options.handlers.js =
     if _.isFunction(options.handlers.js) then options.handlers.js
     else if options.handlers.js == 'concat'
-      (srcFiles, dstFile, cb) -> concatFun srcFiles, dstFile, { separator: ';' }, (err, success) ->
-        if err then cb(err) else cb(null, dstFile)
+      (srcFiles, dstFile, cb) -> concatFun srcFiles, dstFile, { separator: ';' }, cb
     else if options.handlers.js == 'uglify'
       (srcFiles, dstFile, cb) -> uglifyFun(srcFiles, dstFile, {}, cb)
     else null
@@ -26,8 +29,7 @@ module.exports = (inputFile, outputDir, options = {}, doneCallback) ->
   options.handlers.css =
     if _.isFunction(options.handlers.css) then options.handlers.css
     else if options.handlers.css == 'concat'
-      (srcFiles, dstFile, cb) -> concatFun srcFiles, dstFile, { separator: '' }, (err, success) ->
-        if err then cb(err) else cb(null, dstFile)
+      (srcFiles, dstFile, cb) -> concatFun srcFiles, dstFile, { separator: '' }, cb
     else null
 
   fs.readFile inputFile, {encoding: 'utf-8'}, (err, inputData) ->
