@@ -14,7 +14,7 @@
 
   _ = require('lodash');
 
-  concatFun = require('concat-file');
+  concatFun = require('concatenate-files');
 
   uglifyFun = require('uglify-files');
 
@@ -92,6 +92,9 @@
       };
       return async.parallel([writeFun, processFun], function(err, result) {
         var blockResults, resultsPerType;
+        if (err) {
+          return doneCallback(err);
+        }
         resultsPerType = _.groupBy(result != null ? result[1] : void 0, 'type');
         blockResults = _.mapValues(resultsPerType, function(typeResults) {
           return _.map(typeResults, 'result');

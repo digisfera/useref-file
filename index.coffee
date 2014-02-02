@@ -5,7 +5,7 @@ async = require('async')
 fs = require('fs')
 mkdirp = require('mkdirp')
 _ = require('lodash')
-concatFun = require('concat-file')
+concatFun = require('concatenate-files')
 uglifyFun = require('uglify-files')
 
 module.exports = (inputFile, outputDir, options, doneCallback) ->
@@ -58,6 +58,7 @@ module.exports = (inputFile, outputDir, options, doneCallback) ->
 
 
     async.parallel [writeFun, processFun], (err, result) ->
+      if(err) then return doneCallback(err)
       
       resultsPerType = _.groupBy(result?[1], 'type')
       blockResults = _.mapValues(resultsPerType, (typeResults) -> _.map(typeResults, 'result'))

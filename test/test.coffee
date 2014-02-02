@@ -56,3 +56,9 @@ describe 'useref-file', ->
       expect(err).to.be.not.ok
       expect(result).to.be.ok
       done()
+
+  it 'should throw error if file does not exist', (done) ->
+    userefFile "invalid file", "#{__dirname}/tmp", (err, result) ->
+      expect(err).to.be.ok
+      expect(result).to.be.not.ok
+      done()
