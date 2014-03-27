@@ -46,7 +46,7 @@ module.exports = (inputFile, outputDir, options, doneCallback) ->
       allFuns = []
 
       _.each toBuild, (block, type) ->
-        _.each block, (src, dst) ->
+        _.each block, ({ assets: src }, dst) ->
           srcFiles = _.map(src, (p) -> path.join(path.dirname(inputFile), p))
           dstFile = path.join(outputDir, dst)
           allFuns.push (handlerCallback) ->

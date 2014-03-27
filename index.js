@@ -68,8 +68,9 @@
         var allFuns;
         allFuns = [];
         _.each(toBuild, function(block, type) {
-          return _.each(block, function(src, dst) {
-            var dstFile, srcFiles;
+          return _.each(block, function(_arg, dst) {
+            var dstFile, src, srcFiles;
+            src = _arg.assets;
             srcFiles = _.map(src, function(p) {
               return path.join(path.dirname(inputFile), p);
             });
