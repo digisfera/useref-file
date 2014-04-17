@@ -8,6 +8,9 @@ _ = require('lodash')
 concatFun = require('concatenate-files')
 uglifyFun = require('uglify-files')
 
+# Regex to strip query string and hash from path. $1 is the stripped path.
+pathRegex = /^([^\?#]*)(?:\?[^\#]*)?(?:#.*)?$/
+
 module.exports = (inputFile, outputDir, options, doneCallback) ->
   if !doneCallback and _.isFunction(options)
     doneCallback = options
@@ -48,7 +51,8 @@ module.exports = (inputFile, outputDir, options, doneCallback) ->
       _.each toBuild, (block, type) ->
         _.each block, ({ assets: src }, dst) ->
           srcFiles = _.map(src, (p) -> path.join(path.dirname(inputFile), p))
-          dstFile = path.join(outputDir, dst)
+          dstName = pathRegex.exec(dst)[1] or dst
+          dstFile = path.join(outputDir, dstName)
           allFuns.push (handlerCallback) ->
             options.handlers[type] srcFiles, dstFile, (err, result) ->
               if err then handlerCallback(err)

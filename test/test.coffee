@@ -58,6 +58,18 @@ describe 'useref-file', ->
 
       done()
 
+  it 'should strip query and hash from file names', (done) ->
+    userefFile testPath('stripquery.html'), generatedDir, (err, result) ->
+
+      expect(err).to.be.not.ok
+
+      _.each cssFilesToGenerate, (f, i) ->
+        generatedContents = fs.readFileSync(generatedPath(f), encoding: 'utf-8')
+        expectedContents = fs.readFileSync(expectedPath(f), encoding: 'utf-8')
+        expect(generatedContents).to.eql(expectedContents)
+
+      done()
+
   it 'should work in a file without blocks', (done) ->
     userefFile testPath('noblocks.html'), generatedDir, (err, result) ->
       expect(err).to.be.not.ok
