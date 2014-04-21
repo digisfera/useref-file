@@ -3,10 +3,29 @@ path = require('path')
 useref = require('useref')
 async = require('async')
 fs = require('fs')
+path = require('path')
 mkdirp = require('mkdirp')
 _ = require('lodash')
 concatFun = require('concatenate-files')
-uglifyFun = require('uglify-files')
+jsUglifyFun = require('uglify-files')
+
+cssUglifyFun = (srcFiles, dstFile, options, cb) ->
+
+  CleanCss = require('clean-css')
+
+  defaultOptions = noAdvanced: true, compatibility: 'ie8'
+  options = _.extend(defaultOptions, options)
+
+  async.map srcFiles, fs.readFile, (err, result) ->
+    if err then return cb(err)
+    css = result.join('\n')
+    try
+      minCss = new CleanCss(options).minify(css)
+    catch err
+      return cb(err)
+    mkdirp path.dirname(dstFile), (err) ->
+      if err then return cb(err)
+      fs.writeFile dstFile, minCss, cb
 
 # Regex to strip query string and hash from path. $1 is the stripped path.
 pathRegex = /^([^\?#]*)(?:\?[^\#]*)?(?:#.*)?$/
@@ -26,13 +45,15 @@ module.exports = (inputFile, outputDir, options, doneCallback) ->
     else if options.handlers.js == 'concat'
       (srcFiles, dstFile, cb) -> concatFun srcFiles, dstFile, { separator: ';' }, cb
     else if options.handlers.js == 'uglify'
-      (srcFiles, dstFile, cb) -> uglifyFun(srcFiles, dstFile, {}, cb)
+      (srcFiles, dstFile, cb) -> jsUglifyFun(srcFiles, dstFile, {}, cb)
     else null
 
   options.handlers.css =
     if _.isFunction(options.handlers.css) then options.handlers.css
     else if options.handlers.css == 'concat'
       (srcFiles, dstFile, cb) -> concatFun srcFiles, dstFile, { separator: '' }, cb
+    else if options.handlers.css == 'uglify'
+      (srcFiles, dstFile, cb) -> cssUglifyFun(srcFiles, dstFile, {}, cb)
     else null
 
   fs.readFile inputFile, {encoding: 'utf-8'}, (err, inputData) ->

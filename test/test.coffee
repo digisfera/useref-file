@@ -43,18 +43,17 @@ describe 'useref-file', ->
 
       done()
 
-  it 'should uglify js', (done) ->
-    userefFile testPath('index.html'), generatedDir, handlers: js: 'uglify', (err, result) ->
+  it 'should uglify files', (done) ->
+    userefFile testPath('index.html'), generatedDir, handlers: js: 'uglify', css: 'uglify', (err, result) ->
 
       expect(err).to.be.not.ok
 
-      expect(result).to.have.property('css').with.length(2)
       expect(result).to.have.property('js').with.length(2)
+      expect(result).to.have.property('css').with.length(2)
 
       _.each filesToGenerate, (f, i) ->
         generatedContents = fs.readFileSync(generatedPath(f), encoding: 'utf-8')
         expect(generatedContents.length).to.be.greaterThan(0)
-
 
       done()
 
