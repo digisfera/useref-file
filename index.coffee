@@ -1,6 +1,6 @@
 path = require('path')
 
-useref = require('useref')
+useref = require('node-useref')
 async = require('async')
 fs = require('fs')
 path = require('path')
