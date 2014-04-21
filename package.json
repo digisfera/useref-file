@@ -1,6 +1,6 @@
 {
   "name": "useref-file",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Useref on a file",
   "main": "index.js",
   "scripts": {
