@@ -15,7 +15,7 @@ Useref on a file
 * `options`
   * `handlers` - handlers for each type of block
     * `js` - `'concat'|'uglify'|function` (default: `concat`)
-    * `css` - `'concat'|function` (default: `concat`)
+    * `css` - `'concat'|'uglify'|function` (default: `concat`)
 * `callback` - function that will be called with `(err, { blockType: { outputFile, outputData } })`
 
 

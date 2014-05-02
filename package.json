@@ -1,6 +1,6 @@
 {
   "name": "useref-file",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "Useref on a file",
   "main": "index.js",
   "scripts": {
@@ -15,12 +15,14 @@
     "mkdirp": "~0.3.5",
     "async": "~0.2.9",
     "concatenate-files": "~0.1.0",
-    "uglify-files": "~0.1.1"
+    "uglify-files": "~0.1.1",
+    "clean-css": "^2.1.8"
   },
   "devDependencies": {
     "chai": "~1.8.1",
     "mocha": "~1.17.0",
-    "coffee-script": "~1.7.1"
+    "coffee-script": "~1.7.1",
+    "rimraf": "^2.2.6"
   },
   "repository": {
     "type": "git",
