@@ -25,7 +25,9 @@ cssUglifyFun = (srcFiles, dstFile, options, cb) ->
       return cb(err)
     mkdirp path.dirname(dstFile), (err) ->
       if err then return cb(err)
-      fs.writeFile dstFile, minCss, cb
+      fs.writeFile dstFile, minCss, (err, success) ->
+        if err then cb(err)
+        else cb(null, { outputData: minCss, outputFile: dstFile })
 
 # Regex to strip query string and hash from path. $1 is the stripped path.
 pathRegex = /^([^\?#]*)(?:\?[^\#]*)?(?:#.*)?$/

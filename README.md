@@ -8,15 +8,19 @@ Useref on a file
 
 ## Usage
 
-### userefFile(inputFile, outputDir, [options], [callback])
+### userefFile(inputFile, outputFile, [options], [callback])
 
-* `inputFiles` - the HTML file to run `useref` on
-* `outputDir` - directory to write the resulting HTML file and the concatenated block files
+* `inputFile` - the HTML file to run `useref` on
+* `outputFile` - resulting HTML file. The concatenated block files will be located relative to this file.
 * `options`
   * `handlers` - handlers for each type of block
     * `js` - `'concat'|'uglify'|function` (default: `concat`)
     * `css` - `'concat'|'uglify'|function` (default: `concat`)
 * `callback` - function that will be called with `(err, { blockType: { outputFile, outputData } })`
+
+### CLI
+
+`useref inputFile outputFile --js <concat|uglify> --css <concat|uglify>`
 
 
 ## Example
