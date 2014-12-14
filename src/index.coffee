@@ -58,6 +58,8 @@ module.exports = (inputFile, outputFile, options, doneCallback) ->
       (srcFiles, dstFile, cb) -> cssUglifyFun(srcFiles, dstFile, {}, cb)
     else null
 
+  options.handlers.remove = (srcFiles, dstFile, cb) -> cb(null, true)
+
   fs.readFile inputFile, {encoding: 'utf-8'}, (err, inputData) ->
     if err then return doneCallback(err)
     

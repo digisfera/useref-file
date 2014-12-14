@@ -34,8 +34,9 @@ run = ->
     console.log "Wrote:"
     console.log '  - ' + normalizePath(outputFile)
     for type, items of success
-      for { outputFile } in items
-        console.log '  - ' + normalizePath(outputFile)
+      for item in items
+        if item.outputFile
+          console.log '  - ' + normalizePath(item.outputFile)
 
 printUsage = () ->
   console.log "Usage:"
