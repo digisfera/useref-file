@@ -3,7 +3,9 @@
   "version": "0.2.0",
   "description": "Useref on a file",
   "main": "lib/index.js",
-  "bin": "bin/useref",
+  "bin": {
+    "useref": "bin/useref"
+  },
   "scripts": {
     "test": "mocha test",
     "prepublish": "coffee -c -o lib src",
