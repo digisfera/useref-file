@@ -4,7 +4,7 @@ rimraf = require('rimraf')
 _ = require('lodash')
 
 expect = require('chai').expect
-userefFile = require('../index')
+userefFile = require('../src/index')
 
 describe 'useref-file', ->
 

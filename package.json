@@ -2,10 +2,10 @@
   "name": "useref-file",
   "version": "0.1.7",
   "description": "Useref on a file",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "mocha test",
-    "prepublish": "coffee -c index.coffee"
+    "prepublish": "coffee -c -o lib src"
   },
   "author": "Manuel Cabral (m.cabral@digisfera.pt)",
   "license": "MIT",
