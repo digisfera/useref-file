@@ -51,7 +51,7 @@
 
   pathRegex = /^([^\?#]*)(?:\?[^\#]*)?(?:#.*)?$/;
 
-  module.exports = function(inputFile, outputDir, options, doneCallback) {
+  module.exports = function(inputFile, outputFile, options, doneCallback) {
     var _base, _base1;
     if (!doneCallback && _.isFunction(options)) {
       doneCallback = options;
@@ -86,17 +86,18 @@
     return fs.readFile(inputFile, {
       encoding: 'utf-8'
     }, function(err, inputData) {
-      var outHtml, processFun, toBuild, writeFun, _ref;
+      var outHtml, outputDir, processFun, toBuild, writeFun, _ref;
       if (err) {
         return doneCallback(err);
       }
       _ref = useref(inputData), outHtml = _ref[0], toBuild = _ref[1];
+      outputDir = path.dirname(outputFile);
       writeFun = function(cb) {
         return mkdirp(outputDir, function(err, done) {
           if (err) {
             return cb(err);
           }
-          return fs.writeFile(path.join(outputDir, path.basename(inputFile)), outHtml, cb);
+          return fs.writeFile(outputFile, outHtml, cb);
         });
       };
       processFun = function(cb) {

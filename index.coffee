@@ -30,7 +30,7 @@ cssUglifyFun = (srcFiles, dstFile, options, cb) ->
 # Regex to strip query string and hash from path. $1 is the stripped path.
 pathRegex = /^([^\?#]*)(?:\?[^\#]*)?(?:#.*)?$/
 
-module.exports = (inputFile, outputDir, options, doneCallback) ->
+module.exports = (inputFile, outputFile, options, doneCallback) ->
   if !doneCallback and _.isFunction(options)
     doneCallback = options
     options = null
@@ -61,10 +61,11 @@ module.exports = (inputFile, outputDir, options, doneCallback) ->
     
     [ outHtml, toBuild ] = useref(inputData)
 
+    outputDir = path.dirname(outputFile)
     writeFun = (cb) ->
       mkdirp outputDir, (err, done) ->
         if err then return cb(err)
-        fs.writeFile(path.join(outputDir, path.basename(inputFile)), outHtml, cb)
+        fs.writeFile(outputFile, outHtml, cb)
     
     processFun = (cb) ->
       allFuns = []

@@ -26,7 +26,7 @@ describe 'useref-file', ->
       done()
 
   it 'should write output and processed files', (done) ->
-    userefFile testPath('index.html'), generatedDir, (err, result) ->
+    userefFile testPath('index.html'), generatedPath('index.html'), (err, result) ->
 
       expect(err).to.be.not.ok
       expect(result).to.have.property('css').with.length(2)
@@ -44,7 +44,7 @@ describe 'useref-file', ->
       done()
 
   it 'should uglify files', (done) ->
-    userefFile testPath('index.html'), generatedDir, handlers: js: 'uglify', css: 'uglify', (err, result) ->
+    userefFile testPath('index.html'), generatedPath('index.html'), handlers: js: 'uglify', css: 'uglify', (err, result) ->
 
       expect(err).to.be.not.ok
 
@@ -58,7 +58,7 @@ describe 'useref-file', ->
       done()
 
   it 'should strip query and hash from file names', (done) ->
-    userefFile testPath('stripquery.html'), generatedDir, (err, result) ->
+    userefFile testPath('stripquery.html'), generatedPath('stripquery.html'), (err, result) ->
 
       expect(err).to.be.not.ok
 
@@ -70,13 +70,13 @@ describe 'useref-file', ->
       done()
 
   it 'should work in a file without blocks', (done) ->
-    userefFile testPath('noblocks.html'), generatedDir, (err, result) ->
+    userefFile testPath('noblocks.html'), generatedPath('noblocks.html'), (err, result) ->
       expect(err).to.be.not.ok
       expect(result).to.be.ok
       done()
 
   it 'should throw error if file does not exist', (done) ->
-    userefFile 'invalid file', generatedDir, (err, result) ->
+    userefFile 'invalid file', generatedPath('index.html'), (err, result) ->
       expect(err).to.be.ok
       expect(result).to.be.not.ok
       done()
